@@ -5,6 +5,7 @@ import com.hcltest.abcmortgagebanking.abc_mortgage_banking.repository.AccountRep
 import com.hcltest.abcmortgagebanking.abc_mortgage_banking.service.AccountService;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,17 +36,17 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account deposit(Long id, double amount) {
         Account account = getAccount(id).orElseThrow(() -> new RuntimeException("Account not found"));
-        account.setBalance(account.getBalance() + amount);
+        account.setBalance(account.getBalance().add(BigDecimal.valueOf(amount)));
         return accountRepository.save(account);
     }
 
     @Override
     public Account withdraw(Long id, double amount) {
         Account account = getAccount(id).orElseThrow(() -> new RuntimeException("Account not found"));
-        if (account.getBalance() < amount) {
+        if (account.getBalance().compareTo(BigDecimal.valueOf(amount)) < 0) {
             throw new RuntimeException("Insufficient funds");
         }
-        account.setBalance(account.getBalance() - amount);
+        account.setBalance(account.getBalance().subtract(BigDecimal.valueOf(amount)));
         return accountRepository.save(account);
     }
 

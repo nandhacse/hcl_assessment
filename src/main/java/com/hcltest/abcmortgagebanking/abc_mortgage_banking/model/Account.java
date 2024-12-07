@@ -1,12 +1,14 @@
 package com.hcltest.abcmortgagebanking.abc_mortgage_banking.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "account")
+@Data
 public class Account {
 
     @Id
@@ -42,4 +44,12 @@ public class Account {
 
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt = LocalDateTime.now();
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
+    }
 }

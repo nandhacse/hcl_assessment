@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.transaction.TransactionStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
