@@ -23,7 +23,7 @@ public class Mortgage {
     private String customerId;
 
     @Column(name="password", length=20, nullable=false, unique=false)
-    private double password;
+    private String password;
 
 
     public String getMortgageType() {
@@ -58,11 +58,11 @@ public class Mortgage {
         this.customerId = customerId;
     }
 
-    public double getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(double password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 }
