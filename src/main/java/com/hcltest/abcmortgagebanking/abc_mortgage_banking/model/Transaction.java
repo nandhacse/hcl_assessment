@@ -42,9 +42,6 @@ public class Transaction {
     @Column(name = "description", length = 255)
     private String description;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Transaction> transactions;
-
     // Default constructor
     public Transaction() {}
 
@@ -123,13 +120,5 @@ public class Transaction {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public List<Transaction> getTransactions() {
-        return transactions;
-    }
-
-    public void setTransactions(List<Transaction> transactions) {
-        this.transactions = transactions;
     }
 }
