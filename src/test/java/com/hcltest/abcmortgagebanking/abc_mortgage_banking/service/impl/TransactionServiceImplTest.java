@@ -7,6 +7,7 @@ import com.hcltest.abcmortgagebanking.abc_mortgage_banking.model.Account;
 import com.hcltest.abcmortgagebanking.abc_mortgage_banking.model.AccountStatus;
 import com.hcltest.abcmortgagebanking.abc_mortgage_banking.model.AccountType;
 import com.hcltest.abcmortgagebanking.abc_mortgage_banking.repository.AccountRepository;
+import com.hcltest.abcmortgagebanking.abc_mortgage_banking.repository.TransactionRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -33,6 +34,9 @@ class TransactionServiceImplTest {
 
     @Mock
     private AccountRepository accountRepository;
+
+    @Mock
+    private TransactionRepository transactionRepository;
 
     @InjectMocks
     private TransactionServiceImpl transactionService;

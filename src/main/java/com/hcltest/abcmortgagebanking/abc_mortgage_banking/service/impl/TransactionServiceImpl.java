@@ -7,6 +7,7 @@ import com.hcltest.abcmortgagebanking.abc_mortgage_banking.exception.TransferOpe
 import com.hcltest.abcmortgagebanking.abc_mortgage_banking.exception.WithdrawOperationException;
 import com.hcltest.abcmortgagebanking.abc_mortgage_banking.model.*;
 import com.hcltest.abcmortgagebanking.abc_mortgage_banking.repository.AccountRepository;
+import com.hcltest.abcmortgagebanking.abc_mortgage_banking.repository.TransactionRepository;
 import com.hcltest.abcmortgagebanking.abc_mortgage_banking.service.TransactionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +29,9 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Autowired
     private AccountRepository accountRepository;
+
+    @Autowired
+    private TransactionRepository transactionRepository;
 
     @Override
     public void deposit(Long accountId, double amount, String remarks) throws InvalidAccountException, DepositOperationException {
@@ -87,6 +92,11 @@ public class TransactionServiceImpl implements TransactionService {
             log.error("Error in transfer, fromAccountId: {}, toAccountId: {}, amount: {}, remarks: {}", fromAccountId, toAccountId, amount, remarks, ex);
             throw new TransferOperationException();
         }
+    }
+
+    @Override
+    public List<Transaction> getTransaction(String accountId) {
+        return transactionRepository.findAll();
     }
 
     @Transactional
