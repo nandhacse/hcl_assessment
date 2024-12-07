@@ -4,6 +4,7 @@ import com.hcltest.abcmortgagebanking.abc_mortgage_banking.exception.DepositOper
 import com.hcltest.abcmortgagebanking.abc_mortgage_banking.exception.InvalidAccountException;
 import com.hcltest.abcmortgagebanking.abc_mortgage_banking.exception.TransferOperationException;
 import com.hcltest.abcmortgagebanking.abc_mortgage_banking.model.Account;
+import com.hcltest.abcmortgagebanking.abc_mortgage_banking.model.Transaction;
 import com.hcltest.abcmortgagebanking.abc_mortgage_banking.model.request.DepositRequest;
 import com.hcltest.abcmortgagebanking.abc_mortgage_banking.model.request.TransferRequest;
 import com.hcltest.abcmortgagebanking.abc_mortgage_banking.service.TransactionService;
@@ -13,9 +14,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController("transaction")
 public class TransactionController {
@@ -58,6 +59,23 @@ public class TransactionController {
             return ResponseEntity.badRequest().build();
         } catch (TransferOperationException | InvalidAccountException ex) {
             log.error("Error in performing deposit operation : {}", transferRequest);
+            return new ResponseEntity(HttpStatusCode.valueOf(500));
+        }
+    }
+
+    @GetMapping("/transaction/{accountId}")
+    public ResponseEntity<List<Transaction>> getTransaction(@RequestParam(value = "accountId", required = true) String accountId) {
+        log.info("start getTransaction operation");
+        try {
+            Long fromAccountId = Long.parseLong(accountId);
+            List<Transaction> transactions = transactionService.getTransaction(accountId);
+            log.info("getTransaction operation completed successfully");
+            return ResponseEntity.ok(transactions);
+        } catch (NumberFormatException ex) {
+            log.error("Error in parsing input : {}", accountId);
+            return ResponseEntity.badRequest().build();
+        } catch (Exception ex) {
+            log.error("Error in performing deposit operation : {}", accountId);
             return new ResponseEntity(HttpStatusCode.valueOf(500));
         }
     }

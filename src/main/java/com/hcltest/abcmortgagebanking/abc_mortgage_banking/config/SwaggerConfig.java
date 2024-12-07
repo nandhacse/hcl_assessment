@@ -13,23 +13,8 @@ public class SwaggerConfig {
 
     @Bean
     public OpenAPI customOpenAPI() {
-        /*return new OpenAPI()
-                .components(new Components())
-                .info(new Info().title("API Documentation").version("1.0.0"));*/
-        final String securitySchemeName = "bearerAuth";
-
         return new OpenAPI()
-                .info(new Info()
-                        .title("Your API")
-                        .description("API documentation with JWT authentication")
-                        .version("1.0.0"))
-                .addSecurityItem(new SecurityRequirement().addList(securitySchemeName)) // Apply security globally
-                .components(new io.swagger.v3.oas.models.Components()
-                        .addSecuritySchemes(securitySchemeName,
-                                new SecurityScheme()
-                                        .name(securitySchemeName)
-                                        .type(SecurityScheme.Type.HTTP)
-                                        .scheme("bearer")
-                                        .bearerFormat("JWT")));
+                .components(new Components())
+                .info(new Info().title("API Documentation").version("1.0.0"));
     }
 }
