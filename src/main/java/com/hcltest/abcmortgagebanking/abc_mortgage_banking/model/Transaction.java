@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "transaction") // Specifies the table name in the database
@@ -41,6 +42,9 @@ public class Transaction {
     @Column(name = "description", length = 255)
     private String description;
 
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Transaction> transactions;
+
     // Default constructor
     public Transaction() {}
 
@@ -55,5 +59,77 @@ public class Transaction {
         this.transactionDate = transactionDate;
         this.status = status;
         this.description = description;
+    }
+
+    public Long getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(Long transactionId) {
+        this.transactionId = transactionId;
+    }
+
+    public Long getSenderAccountId() {
+        return senderAccountId;
+    }
+
+    public void setSenderAccountId(Long senderAccountId) {
+        this.senderAccountId = senderAccountId;
+    }
+
+    public Long getReceiverAccountId() {
+        return receiverAccountId;
+    }
+
+    public void setReceiverAccountId(Long receiverAccountId) {
+        this.receiverAccountId = receiverAccountId;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
+
+    public TransactionType getTransactionType() {
+        return transactionType;
+    }
+
+    public void setTransactionType(TransactionType transactionType) {
+        this.transactionType = transactionType;
+    }
+
+    public LocalDateTime getTransactionDate() {
+        return transactionDate;
+    }
+
+    public void setTransactionDate(LocalDateTime transactionDate) {
+        this.transactionDate = transactionDate;
+    }
+
+    public TransactionStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TransactionStatus status) {
+        this.status = status;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
     }
 }
