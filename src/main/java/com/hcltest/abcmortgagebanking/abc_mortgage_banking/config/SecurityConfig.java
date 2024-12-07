@@ -37,8 +37,8 @@ public class SecurityConfig {
     @Bean
     public UserDetailsService userDetailsService() {
         return new InMemoryUserDetailsManager(
-                User.withUsername("")
-                        .password("") // Use {noop} for plain text passwords (not recommended for production)
+                User.withUsername(username)
+                        .password(password) // Use {noop} for plain text passwords (not recommended for production)
                         .roles("USER")
                         .build()
         );
