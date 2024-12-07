@@ -1,5 +1,6 @@
 package com.hcltest.abcmortgagebanking.abc_mortgage_banking.service.impl;
 
+import com.hcltest.abcmortgagebanking.abc_mortgage_banking.exception.InvalidCustomerException;
 import com.hcltest.abcmortgagebanking.abc_mortgage_banking.model.Customer;
 import com.hcltest.abcmortgagebanking.abc_mortgage_banking.repository.CustomerRepository;
 import org.junit.jupiter.api.Assertions;
@@ -30,10 +31,10 @@ public class CustomerServiceImplTest {
     }
 
     @Test
-    void When_validRequestPayloadIsSent_Expect_ReturnAllTheMatchingLocations()  {
+    void When_validRequestPayloadIsSent_Expect_ReturnAllTheMatchingLocations() throws InvalidCustomerException {
         Long customerId=1001L;
         String password="password123";
-        Mockito.when(customerRepository.findByCustomerIdAndPassword(any(),any())).thenReturn(Optional.of(buildCustomerResponse()));
+        Mockito.when(customerRepository.findByCustomerIdAndPassword(any(),any())).thenReturn(buildCustomerResponse());
         Customer customer = customerService.login(customerId, password);
         Assertions.assertEquals("Test", customer.getName());
     }
