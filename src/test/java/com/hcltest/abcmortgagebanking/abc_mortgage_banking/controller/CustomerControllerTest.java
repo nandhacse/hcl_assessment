@@ -1,5 +1,6 @@
 package com.hcltest.abcmortgagebanking.abc_mortgage_banking.controller;
 
+import com.hcltest.abcmortgagebanking.abc_mortgage_banking.exception.InvalidCustomerException;
 import com.hcltest.abcmortgagebanking.abc_mortgage_banking.model.Account;
 import com.hcltest.abcmortgagebanking.abc_mortgage_banking.model.Customer;
 import com.hcltest.abcmortgagebanking.abc_mortgage_banking.model.request.LoginRequest;
@@ -36,7 +37,7 @@ public class CustomerControllerTest {
     }
 
     @Test
-    void When_ValidaRequestPassed_Expect_SuccessResponse() {
+    void When_ValidaRequestPassed_Expect_SuccessResponse() throws InvalidCustomerException {
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setCustomerId(1001L);
         loginRequest.setPassword("password123");
@@ -46,7 +47,7 @@ public class CustomerControllerTest {
     }
 
     @Test
-    void When_NullRequestValuesPassed_Expect_ErrorMessageResponse() {
+    void When_NullRequestValuesPassed_Expect_ErrorMessageResponse() throws InvalidCustomerException {
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setCustomerId(null);
         loginRequest.setPassword(null);
