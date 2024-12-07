@@ -1,4 +1,7 @@
 package com.hcltest.abcmortgagebanking.abc_mortgage_banking.repository;
 
-public class CustomerRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CustomerRepository extends JpaRepository<Customer, Long> {
+   Customer	findByUsername(String username);
 }
