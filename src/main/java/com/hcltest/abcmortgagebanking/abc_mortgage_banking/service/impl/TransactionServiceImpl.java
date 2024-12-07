@@ -41,7 +41,7 @@ public class TransactionServiceImpl implements TransactionService {
             BigDecimal newBal = account.getBalance().add(BigDecimal.valueOf(amount));
             account.setBalance(newBal);
             saveBalanceToAccount(accountId, amount, remarks, account);
-            addTransaction(account.getAccountId(), amount, TransactionType.DEPOSIT, remarks);
+            addTransaction(account.getAccountNumber(), amount, TransactionType.DEPOSIT, remarks);
         } catch (RuntimeException | DepositOperationException ex) {
             log.error("Error in deposit, accountId: {}, amount: {}, remarks: {}", accountId, amount, remarks, ex);
             throw new DepositOperationException(ex.getMessage());
@@ -84,7 +84,7 @@ public class TransactionServiceImpl implements TransactionService {
             log.info("transfer operation started, fromAccountId: {}, toAccountId: {}, amount: {}, remarks: {}", fromAccountId, toAccountId, amount, remarks);
             transferAccount(fromAccount, toAccount, amount);
             log.info("transfer operation completed, fromAccountId: {}, toAccountId: {}, amount: {}, remarks: {}", fromAccountId, toAccountId, amount, remarks);
-            addTransaction(fromAccount.getAccountId(), toAccount.getAccountId(), amount, TransactionType.DEPOSIT, remarks);
+            addTransaction(fromAccount.getAccountNumber(), toAccount.getAccountNumber(), amount, TransactionType.DEPOSIT, remarks);
         } catch (TransferOperationException | RuntimeException | InvalidAccountException ex) {
             log.error("Error in transfer, fromAccountId: {}, toAccountId: {}, amount: {}, remarks: {}", fromAccountId, toAccountId, amount, remarks, ex);
             throw new TransferOperationException(ex.getMessage());
@@ -96,7 +96,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public List<Transaction> getTransaction(String accountId) {
-        return transactionRepository.findAll();
+        return transactionRepository.findBySenderAccountId(Long.parseLong(accountId));
     }
 
     @Transactional
@@ -114,24 +114,26 @@ public class TransactionServiceImpl implements TransactionService {
         accountRepository.flush();
     }
 
-    public Transaction addTransaction(long accountId, double amount, TransactionType transactionType, String remarks) {
+    public void addTransaction(String accountId, double amount, TransactionType transactionType, String remarks) {
         Transaction transaction = new Transaction();
-        transaction.setReceiverAccountId(accountId);
+        transaction.setReceiverAccountId(Long.parseLong(accountId));
         transaction.setAmount(BigDecimal.valueOf(amount));
         transaction.setTransactionType(transactionType);
         transaction.setTransactionDate(LocalDateTime.now());
         transaction.setDescription(remarks);
-        return transaction;
+        transaction.setStatus(TransactionStatus.COMPLETED);
+        transactionRepository.saveAndFlush(transaction);
     }
 
-    public Transaction addTransaction(long fromAccountId, long toAccountId, double amount, TransactionType transactionType, String remarks) {
+    public void addTransaction(String fromAccountId, String toAccountId, double amount, TransactionType transactionType, String remarks) {
         Transaction transaction = new Transaction();
-        transaction.setSenderAccountId(fromAccountId);
-        transaction.setReceiverAccountId(toAccountId);
+        transaction.setSenderAccountId(Long.parseLong(fromAccountId));
+        transaction.setReceiverAccountId(Long.parseLong(toAccountId));
         transaction.setAmount(BigDecimal.valueOf(amount));
         transaction.setTransactionType(transactionType);
         transaction.setTransactionDate(LocalDateTime.now());
         transaction.setDescription(remarks);
-        return transaction;
+        transaction.setStatus(TransactionStatus.COMPLETED);
+        transactionRepository.saveAndFlush(transaction);
     }
 }
