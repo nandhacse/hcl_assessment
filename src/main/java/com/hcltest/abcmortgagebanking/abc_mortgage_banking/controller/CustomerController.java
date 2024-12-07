@@ -7,13 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
+@RequestMapping("/")
 public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+    @PostMapping("login")
+    public ResponseEntity<Object> login(@RequestBody LoginRequest loginRequest) {
         if (loginRequest.getCustomerId() == null || loginRequest.getPassword() == null) {
             return ResponseEntity.badRequest().body("Customer ID and password are required");
         }

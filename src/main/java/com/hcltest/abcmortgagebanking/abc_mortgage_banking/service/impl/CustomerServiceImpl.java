@@ -4,7 +4,9 @@ import com.hcltest.abcmortgagebanking.abc_mortgage_banking.model.Customer;
 import com.hcltest.abcmortgagebanking.abc_mortgage_banking.repository.CustomerRepository;
 import com.hcltest.abcmortgagebanking.abc_mortgage_banking.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
