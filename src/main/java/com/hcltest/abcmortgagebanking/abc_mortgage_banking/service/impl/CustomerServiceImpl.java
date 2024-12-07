@@ -11,6 +11,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
+    @Override
     public Customer login(Long customerId, String password) {
         // Find customer by ID and password (hashed in production)
         return customerRepository.findByCustomerIdAndPassword(customerId, password)

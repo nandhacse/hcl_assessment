@@ -21,7 +21,6 @@ public class CustomerController {
         if (loginRequest.getCustomerId() == null || loginRequest.getPassword() == null) {
             return ResponseEntity.badRequest().body("Customer ID and password are required");
         }
-
         try {
             Customer customer = customerService.login(
                     loginRequest.getCustomerId(),
